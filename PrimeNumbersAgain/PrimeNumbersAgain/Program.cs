@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading;
 
 namespace PrimeNumbersAgain
 {
@@ -25,7 +26,29 @@ namespace PrimeNumbersAgain
 
         static int FindNthPrime(int n)
         {
-            return 0;
+            int count = 0;
+            int a = 0;
+            for (int i = 1; i < int.MaxValue; i++)
+            {
+                int count2 = 0;
+                for(int j = 2; j <= Math.Sqrt(i) + 1; j++)
+                {
+                    if (i % j == 0)
+                    {
+                        count2++;
+                    }
+                    if(count2 == 1 && j == Math.Sqrt(i) + 1)
+                    {
+                        count++;
+                    }
+                }
+                if(count == n)
+                {
+                    break;
+                }
+                a++;
+            }
+            return a;
         }
 
         static int GetNumber()
