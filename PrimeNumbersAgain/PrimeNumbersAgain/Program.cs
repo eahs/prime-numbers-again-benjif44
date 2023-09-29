@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 
@@ -19,36 +20,42 @@ namespace PrimeNumbersAgain
             timer.Stop();
             
             
-            Console.WriteLine($"\nToo easy.. {prime} is the nth prime when n is {n}. I found that answer in {timer.Elapsed.Seconds} seconds.");
+            Console.WriteLine($"\nToo easy.. {prime} is the nth prime when n is {n}. I found that answer in {timer.Elapsed.TotalMilliseconds} ms.");
 
             EvaluatePassingTime(timer.Elapsed.Seconds);
         }
 
         static int FindNthPrime(int n)
         {
-            int count = 0;
-            int a = 0;
-            for (int i = 1; i < int.MaxValue; i++)
+            List<int> primes = new List<int>(10000000);
+            primes.Add(2);
+            int i;
+            int count = 2;
+
+            if (n == 1) return 2;
+
+            for (i = 3; i < int.MaxValue; i+=2)
             {
-                int count2 = 0;
-                for(int j = 2; j <= Math.Sqrt(i) + 1; j++)
+                int sqrt = (int)Math.Sqrt(i) + 1;
+                for (int j = 0; j <= primes.Count; j++)
                 {
-                    if (i % j == 0)
+                    if (i % primes[j] == 0)
                     {
-                        count2++;
+                        break;
                     }
-                    if(count2 == 1 && j == Math.Sqrt(i) + 1)
+                    if (primes[j] >= sqrt)
                     {
+                        primes.Add(i);
                         count++;
+                        break;
                     }
                 }
-                if(count == n)
+                if (count == n)
                 {
                     break;
                 }
-                a++;
             }
-            return a;
+            return i;
         }
 
         static int GetNumber()
