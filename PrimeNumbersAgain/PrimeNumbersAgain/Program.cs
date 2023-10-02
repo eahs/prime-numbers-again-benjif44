@@ -20,15 +20,13 @@ namespace PrimeNumbersAgain
             timer.Stop();
             
             
-            Console.WriteLine($"\nToo easy.. {prime} is the nth prime when n is {n}. I found that answer in {timer.Elapsed.TotalMilliseconds} ms.");
+            Console.WriteLine($"\nToo easy.. {prime} is the nth prime when n is {n}. I found that answer in {timer.Elapsed.Seconds} s.");
 
             EvaluatePassingTime(timer.Elapsed.Seconds);
         }
 
         static int FindNthPrime(int n)
         {
-            List<int> primes = new List<int>(10000000);
-            primes.Add(2);
             int i;
             int count = 2;
 
@@ -37,15 +35,14 @@ namespace PrimeNumbersAgain
             for (i = 3; i < int.MaxValue; i+=2)
             {
                 int sqrt = (int)Math.Sqrt(i) + 1;
-                for (int j = 0; j <= primes.Count; j++)
+                for (int j = 3; j <= sqrt; j+=2)
                 {
-                    if (i % primes[j] == 0)
+                    if (i % j == 0)
                     {
                         break;
                     }
-                    if (primes[j] >= sqrt)
+                    if (j >= sqrt - 1)
                     {
-                        primes.Add(i);
                         count++;
                         break;
                     }
